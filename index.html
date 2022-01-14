@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>WebGIS</title>
+    <title>Banjir Lahar Dingin</title>
     <link rel="stylesheet" href="library/leaflet/leaflet.css" />
     <link rel="stylesheet" href="css/style.css" />
     <script src="library/leaflet/leaflet.js"></script>
@@ -13,10 +13,10 @@
 <body>
     <div id="map">
         <script>
-            var map = L.map('map').setView([-6.974277, 110.410620], 13);
+            var map = L.map('map').setView([-7.592885, 110.439372], 12);
 
             var baseLayers = {
-                'Esri.WorldTopoMap': L.tileLayer.provider('Esri.WorldTopoMap'),
+                'Esri WorldTopoMap': L.tileLayer.provider('Esri.WorldTopoMap'),
                 'Esri WorldImagery': L.tileLayer.provider('Esri.WorldImagery').addTo(map),
                 'OSM Default': L.tileLayer.provider('OpenStreetMap.DE'),
                 'OSM France': L.tileLayer.provider('OpenStreetMap.France')
@@ -28,30 +28,32 @@
                 style: function(feature) {
                     return {
                         color: "black",
-                        fillColor: KlasBanjir[feature.properties.Klas_Rawan],
+                        fillColor: Klas_banji[feature.properties.Klas_banji],
                         weight: 0.3,
                         opacity: 0,
-                        fillOpacity: 0.5
+                        fillOpacity: 0.7
                     };
                 },
+
+                /*tampilan HTML Pop UP*/
+
                 onEachFeature: function( feature, layer ){
                     layer.bindPopup(
-                        "Klas Rawan Bajir : " + "<left>" + feature.properties.Klas_Rawan + "</left>" + "<br>" +
+                        "Klas Rawan Banjir : " + "<left>" + feature.properties.Klas_banji + "</left>" + "<br>" +
                         "Luas :" + "<left>" + feature.properties.Shape_Area + "</left>" + " m2"
                         )
                 }
             });
-            $.getJSON("data/Rawan_Banjir_Semarang_Geo.json", function(data) {
+            $.getJSON("data/banjirdirect_geo.json", function(data) {
                 AreaRawanBanjir.addData(data);
             });
 
 			/* Merubah Tampilan Warna Berdasar Atribut Klas Banjir */
-			var KlasBanjir = {
-				"Aman":"#d3f0f2",
-				"Cukup Aman":"#9bd1e8",
-				"Agak Rawan":"#6c76cc",
-				"Rawan":"#1326d1",
-				"Sangat Rawan":"#0b0a5c"
+			var Klas_banji = {
+				"Rendah":"#36a832",
+				"Sedang":"#f2ef13",
+				"Tinggi":"#f21313",
+				
 			};
 
             var mapLayers = {
